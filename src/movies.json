@@ -1,0 +1,20 @@
+{
+
+"movies": [
+
+
+    {
+        "img": "/",
+        "title": "movie title 1",
+        "actors": "list of actors movie 1",
+        "description": "description of movie 1"
+    },{
+        "img": "/",
+        "title": "movie title 2",
+        "actors": "list of actors movie 2",
+        "description": "description of movie 2"
+    }
+]
+
+
+}
