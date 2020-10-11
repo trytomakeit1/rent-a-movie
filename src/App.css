@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+
+/* ###################### */
+
+/* Form ***********/
+
+.form-control {
+
+  border: 1px solid grey;
+  padding: 10px;
+  margin: 20px;  
+
+}
+.form-control > * {
+ display: block;
+ padding: 7px;
+ margin: 10px auto;
+}
+
+.form-control button {
+  padding: 10px;
+  text-transform: uppercase;
+  background-color: lightskyblue;
+  border: 1px solid lightgray;
+}
