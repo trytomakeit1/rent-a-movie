@@ -44,6 +44,19 @@
 
 /* ###################### */
 
+
+
+/* General */
+
+.link-button {
+  background-color: unset;
+  border: unset;
+  text-decoration: underline;
+  padding: 0;
+  cursor: pointer;
+
+}
+
 /* Form ***********/
 
 .form-control {
@@ -64,4 +77,51 @@
   text-transform: uppercase;
   background-color: lightskyblue;
   border: 1px solid lightgray;
+}
+
+
+.main-header {
+  padding: 4px;
+  background-color: #613569;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-header > * {
+  margin: auto 20px;
+}
+
+.main-header-right a {
+  margin: 8px;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+}
+
+.main-header-right a:last-child{
+  margin-right: 0px;
+}
+
+.main-header-right a:hover{
+  border-bottom: 2px solid white;
+
+}
+.main-header-right a:active,
+.main-header-right a.active {
+  border-bottom: 2px solid white;
+  font-weight: 600;
+}
+
+
+
+
+.main-header-left {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  text-align: center;
+}
+.main-header-left h4 {
+  margin-left: 20px;
 }
