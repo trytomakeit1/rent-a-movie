@@ -125,3 +125,17 @@
 .main-header-left h4 {
   margin-left: 20px;
 }
+
+
+button.button {
+  padding: 10px;
+  background-color: #2fd7f3;
+  font-weight: 600;
+  border: 0;
+  box-shadow: 3px 2px 3px lightblue;
+}
+
+button.button:focus, button.button:hover, button.button:active {
+  outline: none;
+  box-shadow: 1px 1px lightblue;
+}

@@ -1,70 +1,38 @@
-import React, {Component} from 'react';
-import {Route, Switch, withRouter} from 'react-router-dom';
-
-import Navigation from './Navigation';
-import Content from './Content';
-import MovieCollection from './MovieCollection';
-import RentMovie from './RentMovie';
-import About from './About';
+import React, {useState, Component} from 'react';
+import Authentication from './Authentication';
 
 class Home extends Component {
 
-
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            isLoggedin: false
+            homeContent: <p>You can use the menu to navigate through the pages
+            and rent movies of your choice.</p>
         }
     }
 
-    componentDidMount() {
-
-        const currentToken = localStorage.getItem('token');
-
-        if( currentToken !== null && currentToken !== '') {
-            console.log("cmp mounted - token not empty/null and is:", currentToken);
-            this.setState ({
-                isLoggedin: true
-            });
-        }
-    }
-
-
-    checkLogin(newIsLoggedin){
-
-        this.setState({
-            isLoggedin: newIsLoggedin
-        });
+    updateLoginstatus(newStatus) {
+        this.props.checkLogin(newStatus);
     }
 
     render(){
 
-        return (
-            <div>
-                <Navigation authenticated={this.state.isLoggedin} 
-                    checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
-                <h2>Main page</h2>
-               
-                <Switch>
-                    <Route path="/about" component={About} />
-                    <Route path="/" exact render={()=>{
+        let homeContent = null;
+        if(this.props.authenticated) {
+            homeContent = <p>You can use the menu to navigate through the pages
+            and rent movies of your choice.</p>;
+        }
+        else {
+            homeContent = <Authentication checkLogin={status => this.updateLoginstatus(status)} />;
 
-                        return <Content authenticated={this.state.isLoggedin}
-                            checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
-                    }} />
-                </Switch>
-
- 
-                {this.state.isLoggedin ? 
-                    <Switch>
-                        <Route path="/movies" component={MovieCollection} />
-                        <Route path="/rent-a-movie" component={RentMovie} />
-                    </Switch>
-                    : null}
-
+        }
+        return(
+            <div className="main-content">
+                {homeContent}
             </div>
         );
     }
 }
 
-export default withRouter(Home);
+
+export default Home;

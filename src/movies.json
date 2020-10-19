@@ -4,12 +4,14 @@
 
 
     {
-        "img": "/",
+        "id": "120",
+        "img": "/logo-rent-a-movie-150.png",
         "title": "movie title 1",
         "actors": "list of actors movie 1",
         "description": "description of movie 1"
     },{
-        "img": "/",
+        "id": "121",
+        "img": "/logo-rent-a-movie-150.png",
         "title": "movie title 2",
         "actors": "list of actors movie 2",
         "description": "description of movie 2"

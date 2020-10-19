@@ -1,0 +1,16 @@
+.movies-container {
+    text-align: left;
+}
+
+
+.movie-list {
+    display: flex;
+}
+
+.movie-tile {
+
+    border: 1px solid #eee;
+    padding: 15px;
+    margin: 20px;
+    width: 300px;
+}
