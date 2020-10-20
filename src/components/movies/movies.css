@@ -2,13 +2,13 @@
     text-align: left;
 }
 
-
 .movie-list {
     display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .movie-tile {
-
     border: 1px solid #eee;
     padding: 15px;
     margin: 20px;

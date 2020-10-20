@@ -20,18 +20,38 @@ const MovieTile = (props) => {
         return _redirectState.redirect;
     }
     else
-    return(
+    {
+
+        if(movie === null ){return null;}
+
+        else {
+            let genresList = [];
+            if(movie.genres) {
+                genresList = movie.genres.map((el, index)=> {
+                    if (index < movie.genres.length - 1)
+                        return el + ", "
+                    else
+                        return el
+                });
+            }
+            
+    
+            return(
+            
+                <div className="movie-tile">
+                    <img src={movie.poster} alt="movie poster" width="50"/>
+                    <h5>Title: {movie.title}</h5>
+                    <h5>Genres:</h5><p> {genresList}</p>
+                    <h5>Year:</h5> <p>{movie.year}</p>
         
-        <div className="movie-tile">
-            <img src="./ddd.jpg" alt="movie poster" />
-            <h4>Title: {movie.title}</h4>
-            <h4>Actors: {movie.actors}</h4>
-            <p>Description: {movie.description}</p>
+                    <button className="button" onClick={() => showSingleMovie(movie)}>More</button>
+        
+                </div>
+            );
 
-            <button className="button" onClick={() => showSingleMovie(movie)}>More</button>
-
-        </div>
-    );
+        }
+        
+    }
 }
 
 export default MovieTile;
