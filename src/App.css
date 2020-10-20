@@ -46,6 +46,12 @@
 
 
 
+.container {
+  margin: 30px 50px;
+  padding: 25px;
+}
+
+
 /* General */
 
 .link-button {
@@ -55,6 +61,11 @@
   padding: 0;
   cursor: pointer;
 
+}
+
+
+.float-right {
+  float: right;
 }
 
 /* Form ***********/

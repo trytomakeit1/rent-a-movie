@@ -43,24 +43,28 @@ class Content extends Component {
             <div>
                 <Navigation authenticated={this.state.isLoggedin} 
                     checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
-                <h2>Main page</h2>
-               
-                <Switch>
-                    <Route path="/about" component={About} />
-                    <Route path="/" exact render={()=>{
-
-                        return <Home authenticated={this.state.isLoggedin}
-                            checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
-                    }} />
-                </Switch>
-
- 
-                {this.state.isLoggedin ? 
+                    
+                <div className="container">
+                    <h2>Main page</h2>
+                
                     <Switch>
-                        <Route path="/movies" render={()=> <MovieCollection {...this.props}/>} />
-                        <Route path="/rent-a-movie" component={RentMovie} />
+                        <Route path="/about" component={About} />
+                        <Route path="/" exact render={()=>{
+
+                            return <Home authenticated={this.state.isLoggedin}
+                                checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
+                        }} />
                     </Switch>
-                    : null}
+
+    
+                    {this.state.isLoggedin ? 
+                        <Switch>
+                            <Route path="/movies" render={()=> <MovieCollection {...this.props}/>} />
+                            <Route path="/rent-a-movie" component={RentMovie} />
+                        </Switch>
+                        : null}
+
+                </div>
 
             </div>
         );

@@ -8,9 +8,32 @@
     flex-wrap: wrap;
 }
 
+
+
 .movie-tile {
     border: 1px solid #eee;
     padding: 15px;
     margin: 20px;
-    width: 300px;
+    width: 200px;
+}
+
+
+.movie-details h4{
+    display: inline-block;
+}
+
+.movie-detail-item {
+    padding: 10px 0;
+}
+
+.movie-details-images {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+.movie-details-images img {
+    width: 45%;
+    padding: 10px 0;
 }
