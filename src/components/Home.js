@@ -1,37 +1,27 @@
-import React, {useState, Component} from 'react';
+import React from 'react';
 import Authentication from './Authentication';
 
-class Home extends Component {
+const Home = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            homeContent: <p>You can use the menu to navigate through the pages
-            and rent movies of your choice.</p>
-        }
+    const updateLoginstatus = (newStatus) => {
+        props.checkLogin(newStatus);
     }
 
-    updateLoginstatus(newStatus) {
-        this.props.checkLogin(newStatus);
+
+    let homeContent = null;
+    if(props.authenticated) {
+        homeContent = <p>You can use the menu to navigate through the pages
+        and rent movies of your choice.</p>;
     }
+    else {
+        homeContent = <Authentication checkLogin={updateLoginstatus} />;
 
-    render(){
-
-        let homeContent = null;
-        if(this.props.authenticated) {
-            homeContent = <p>You can use the menu to navigate through the pages
-            and rent movies of your choice.</p>;
-        }
-        else {
-            homeContent = <Authentication checkLogin={status => this.updateLoginstatus(status)} />;
-
-        }
-        return(
-            <div className="main-content">
-                {homeContent}
-            </div>
-        );
     }
+    return(
+        <div className="main-content">
+            {homeContent}
+        </div>
+    );
 }
 
 

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 
-const MoviesList = (cb) => {
+const fetchList = (cb) => {
 
     const url = 'http://moviesapi.ir/api/v1/movies?page=1';
 
@@ -22,6 +22,6 @@ const MoviesList = (cb) => {
     })
 }
 
-export default MoviesList;
+export default fetchList;
 
 

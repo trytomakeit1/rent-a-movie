@@ -4,7 +4,7 @@ import SingleMovie from './SingleMovie';
 
 import './movies.css';
 //import * as movieList from '../../movies.json';
-import MoviesList from './MoviesList';
+import fetchList from './fetchList';
 
 class MovieCollection extends Component {
 
@@ -15,7 +15,8 @@ class MovieCollection extends Component {
     }
 
     componentWillMount() {
-        MoviesList((err, res) => {
+
+        fetchList((err, res) => {
             if(err){
                 this.setState({error:err});
             } else {

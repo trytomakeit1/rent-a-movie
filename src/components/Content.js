@@ -10,11 +10,8 @@ import About from './About';
 class Content extends Component {
 
 
-    constructor(props){
-        super(props);
-        this.state = {
-            isLoggedin: false
-        }
+    state = {
+        isLoggedin: false
     }
 
     componentDidMount() {
@@ -45,7 +42,6 @@ class Content extends Component {
                     checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
                     
                 <div className="container">
-                    <h2>Main page</h2>
                 
                     <Switch>
                         <Route path="/about" component={About} />
