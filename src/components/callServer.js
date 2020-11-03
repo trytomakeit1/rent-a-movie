@@ -55,7 +55,7 @@ const rentedMovies = (username, cb) => {
         if(result.error) {
             cb("There was a problem: " + result.error);
         }else {
-            cb(null, result);
+            cb(null, result.result);
         }
         
 

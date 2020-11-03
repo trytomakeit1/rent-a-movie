@@ -15,7 +15,7 @@ const Navigation = (props) => {
             <div className="main-header-left">
                 <img src="/logo-rent-a-movie-100.png" 
                 width="50" alt="logo"></img>
-                <h4>Rent a Movie</h4>
+                <h4>Rented Movies</h4>
             </div>
             <div className="main-header-right">
                 <nav>
