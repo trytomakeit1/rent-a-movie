@@ -4,7 +4,7 @@ import {Route, Switch, withRouter} from 'react-router-dom';
 import Navigation from './Navigation';
 import Home from './Home';
 import MovieCollection from './movies/MovieCollection';
-import RentMovie from './RentMovie';
+import RentedMovies from './movies/RentedMovies';
 import About from './About';
 
 class Content extends Component {
@@ -56,7 +56,7 @@ class Content extends Component {
                     {this.state.isLoggedin ? 
                         <Switch>
                             <Route path="/movies" render={()=> <MovieCollection {...this.props}/>} />
-                            <Route path="/rent-a-movie" component={RentMovie} />
+                            <Route path="/rented-movies" component={RentedMovies} />
                         </Switch>
                         : null}
 

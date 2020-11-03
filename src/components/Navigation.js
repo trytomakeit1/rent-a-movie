@@ -6,6 +6,7 @@ const Navigation = (props) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         props.checkLogin(false);
     }
 
@@ -22,7 +23,7 @@ const Navigation = (props) => {
                     {props.authenticated ?
                         <React.Fragment>
                             <NavLink to="/movies">Movies</NavLink>
-                            <NavLink to="/rent-a-movie">Rent a movie</NavLink>        
+                            <NavLink to="/rented-movies">Rent a movie</NavLink>        
                         </React.Fragment>
                         :
                         null

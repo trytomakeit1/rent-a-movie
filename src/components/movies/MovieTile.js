@@ -9,7 +9,7 @@ const MovieTile = (props) => {
     })
 
     const showSingleMovie = (selectedMovie) => {
-        const address = {pathname: "/movies", search:"id=" +  selectedMovie.id};
+        const address = {pathname: "/movies", search:"id=" +  selectedMovie._id};
         const r = <Redirect push to={address} />
         _updateRedirectState({redirect: r})
 

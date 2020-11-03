@@ -60,6 +60,7 @@ const Authentication = (props) => {
 
                 } else {
                         localStorage.setItem('token', result.result.token);
+                        localStorage.setItem('user', email);
                         updateState({
                             signup: currentState.signup,
                             isLoggedin: true,
@@ -123,7 +124,7 @@ const Authentication = (props) => {
                             console.log("username or password incorrect.");
                         else {
                             localStorage.setItem('token', result.result.token);
-
+                            localStorage.setItem('user', email);
                             updateState({
                                 signup: currentState.signup,
                                 isLoggedin: true,

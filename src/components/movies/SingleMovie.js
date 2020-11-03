@@ -1,4 +1,5 @@
 import React from 'react';
+import {rentMovie} from '../callServer';
 
 const SingleMovie = (props) => {
 
@@ -12,8 +13,8 @@ const SingleMovie = (props) => {
         // Genres list
         let genresList = [];
         if(movie.genres) {
-            genresList = movie.genres.map((el, index)=> {
-                if (index < movie.genres.length - 1)
+            genresList = movie.genres.map((el, ind)=> {
+                if (ind < movie.genres.length - 1)
                     return el + ", "
                 else
                     return el
@@ -23,10 +24,10 @@ const SingleMovie = (props) => {
         // Details
         let singleMovieDetails = null;
         let keysList = ["title", "year", "country", "imdb_rating"];
-        singleMovieDetails = keysList.map((el, index) => {
+        singleMovieDetails = keysList.map((el, ind) => {
 
             if(movie[el]) {
-            return (<div className="movie-detail-item" key={index}>
+            return (<div className="movie-detail-item" key={ind}>
             <span style={{fontWeight: 700}}>{el}: </span><span>{movie[el]}</span>
         </div>);
             }
@@ -35,10 +36,32 @@ const SingleMovie = (props) => {
         //images
         let imagesList = null;
         if(movie.images){
-            imagesList = movie.images.map((el, index)=> {
-                console.log(el);
-                return <img src={el} alt={el} />
+            imagesList = movie.images.map((el, ind)=> {
+                return <img src={el} alt={el} key={ind} />
             });
+        }
+
+
+
+        const rent = () => {
+            //check all before sending
+            // userid
+            const username = localStorage.getItem('user');
+            if(username && username !== '') {
+
+                const movieId = movie._id;
+                rentMovie({username: username, movieId: movieId},(err, res) => {
+                    if(err)
+                    console.log('the result of rentMovie had error', err)
+                    else
+                    console.log("res of rentMovie success", res)
+                    
+                });
+
+            } else {
+
+            }
+            
         }
 
 
@@ -54,7 +77,7 @@ const SingleMovie = (props) => {
                 <span style={{fontWeight: 700}}>Genres: </span><span> {genresList}</span>
             </div>
             <div className="">
-                <button className="button float-right">Rent</button>
+                <button className="button float-right" onClick={rent}>Rent</button>
                 <div style={{clear: "both"}}></div>
             </div>
             

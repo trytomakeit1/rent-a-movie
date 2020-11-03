@@ -3,8 +3,7 @@ import MovieTile from './MovieTile';
 import SingleMovie from './SingleMovie';
 
 import './movies.css';
-//import * as movieList from '../../movies.json';
-import fetchList from './fetchList';
+import {fetchMovies} from '../callServer';
 
 class MovieCollection extends Component {
 
@@ -14,17 +13,17 @@ class MovieCollection extends Component {
         error: ''
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
-        fetchList((err, res) => {
+        fetchMovies((err, res) => {
             if(err){
                 this.setState({error:err});
             } else {
-                this.setState({movies: res})
+                this.setState({movies: res.result})
             }
         });
     }
-    
+
 
 
 
@@ -34,14 +33,14 @@ class MovieCollection extends Component {
         let search = this.props.history.location.search;
         if(search !== null && search !== "") {
             const res = search.slice(search.indexOf("=")+1);
-            const movie = this.state.movies.find((el) => el.id == res);
+            const movie = this.state.movies.find((el) => el._id == res);
             content = <SingleMovie movie={movie} />
         }
         else {
         content = (
                 <div className="movie-list">
                     {this.state.movies.map((element, index) => {
-                        return <MovieTile key={element.id} movie={element} />
+                        return <MovieTile key={element._id} movie={element} />
                     })}
                 </div>
             );
