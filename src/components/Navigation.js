@@ -20,8 +20,12 @@ const Navigation = (props) => {
             <div className="main-header-right">
                 <nav>
                     <NavLink to="/" exact>Home</NavLink>
-                    {props.authenticated ?
+                    {props.authenticated.isLoggedin ?
                         <React.Fragment>
+                            {props.authenticated.isAdmin ?
+                                <NavLink to="/dashboard">Dashboard</NavLink>
+                                : null
+                            }
                             <NavLink to="/movies">Movies</NavLink>
                             <NavLink to="/rented-movies">Rent a movie</NavLink>        
                         </React.Fragment>
@@ -31,7 +35,7 @@ const Navigation = (props) => {
                     <NavLink to="/about">About</NavLink>
 
                     {/* NavLink would add a permanent active class. I guess because of onlick. */}
-                    {props.authenticated ?
+                    {props.authenticated.isLoggedin ?
                     <Link to="/" onClick={logout}>Logout</Link> : null }
 
                 </nav>

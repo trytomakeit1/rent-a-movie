@@ -57,7 +57,7 @@ const rentedMovies = (username, cb) => {
         }else {
             cb(null, result.result);
         }
-        
+
 
     })
     .catch(e => {console.log("Error-axio-rentedMovies", e);
@@ -88,4 +88,34 @@ const fetchMovies = (cb) => {
 }
 
 
-export {verifyToken, rentMovie, rentedMovies, fetchMovies};
+
+const insertMovie = (movie, cb) => {
+    //check params
+    axios.post(baseUrl + 'addMovie', movie)
+    .then(res => {
+        const result = res.data;
+        if(res.status === 200) {
+
+            
+            if(result.error) {
+                cb("There was a problem: " + result.error);
+            }else {
+                cb(null, result.result);
+            }
+
+        } else {
+            console.log("error in adding movies", result.error);
+            cb("Error adding the new movie");
+        }
+
+    }).catch(e => {
+        console.log("error in adding movies", e);
+        cb("Error adding the new movie");
+
+    });
+
+}
+
+
+
+export {verifyToken, rentMovie, rentedMovies, fetchMovies, insertMovie};

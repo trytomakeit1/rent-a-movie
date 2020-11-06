@@ -6,22 +6,25 @@ import Home from './Home';
 import MovieCollection from './movies/MovieCollection';
 import RentedMovies from './movies/RentedMovies';
 import About from './About';
+import Dashboard from './admin/Dashboard';
 
 class Content extends Component {
 
 
     state = {
-        isLoggedin: false
+        isLoggedin: false,
+        isAdmin: false
     }
 
     componentDidMount() {
 
         const currentToken = localStorage.getItem('token');
-
+        const isAdmin = localStorage.getItem('user') === 'admin' ?
+        true: false ;
         if( currentToken !== null && currentToken !== '') {
-            console.log("cmp mounted - token not empty/null and is:", currentToken);
             this.setState ({
-                isLoggedin: true
+                isLoggedin: true,
+                isAdmin: isAdmin
             });
         }
     }
@@ -29,8 +32,14 @@ class Content extends Component {
 
     checkLogin(newIsLoggedin){
 
+        let isAdmin = false;
+        if(newIsLoggedin === true && 
+            localStorage.getItem('user') === 'admin') {
+                isAdmin = true;
+            }
         this.setState({
-            isLoggedin: newIsLoggedin
+            isLoggedin: newIsLoggedin,
+            isAdmin: isAdmin
         });
     }
 
@@ -38,7 +47,7 @@ class Content extends Component {
 
         return (
             <div>
-                <Navigation authenticated={this.state.isLoggedin} 
+                <Navigation authenticated={this.state}
                     checkLogin={(newIsLoggedin) => this.checkLogin(newIsLoggedin)} />
                     
                 <div className="container">
@@ -57,6 +66,10 @@ class Content extends Component {
                         <Switch>
                             <Route path="/movies" render={()=> <MovieCollection {...this.props}/>} />
                             <Route path="/rented-movies" component={RentedMovies} />
+                            {(this.state.isLoggedin && this.state.isAdmin) ?
+                                <Route path="/dashboard" component={Dashboard} />
+                                : null
+                            }
                         </Switch>
                         : null}
 

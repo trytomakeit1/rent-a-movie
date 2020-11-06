@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  font-size: 14px;
+  
 }
 
 .App-logo {
@@ -68,27 +70,40 @@
   float: right;
 }
 
+.textLeft {
+  text-align: left;
+}
+
 /* Form ***********/
 
 .form-control {
 
+  width:100%;
   border: 1px solid grey;
   padding: 10px;
   margin: 20px;  
 
 }
 .form-control > * {
- display: block;
- padding: 7px;
- margin: 10px auto;
+  display: block;
+  padding: 7px;
+  margin: 10px auto;
 }
 
-.form-control button {
+
+.form-control div *:not(button) {
+  font-size: inherit;
+}
+.form-control label{
+  font-weight: bold !important;
+}
+
+/* .form-control button {
   padding: 10px;
   text-transform: uppercase;
   background-color: lightskyblue;
   border: 1px solid lightgray;
-}
+} */
 
 
 .main-header {
@@ -138,7 +153,7 @@
 }
 
 
-button.button {
+button.button, .form-control button {
   padding: 10px;
   background-color: #2fd7f3;
   font-weight: 600;
@@ -146,7 +161,8 @@ button.button {
   box-shadow: 3px 2px 3px lightblue;
 }
 
-button.button:focus, button.button:hover, button.button:active {
+button.button:focus, button.button:hover, button.button:active,
+.form-control button:focus, .form-control button:hover, .form-control button:active {
   outline: none;
   box-shadow: 1px 1px lightblue;
 }
