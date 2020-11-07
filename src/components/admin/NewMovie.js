@@ -17,6 +17,7 @@ const NewMovie = (props) => {
         genresList : []
     });
 
+
     useEffect(() => {
         const startYear = 1920;
         const finalYear = new Date().getFullYear();
@@ -30,11 +31,13 @@ const NewMovie = (props) => {
             return <option key={el} value={el}>{el}</option>
         });
 
+
         updateInputState((prevState) => {
             return{
             genresList: prevState.genresList,
             yearOptions: options
 }        })
+
 
     }, []);
 
@@ -49,12 +52,14 @@ const NewMovie = (props) => {
             country: event.country.value,
             imdb_rating: event.imdb_rating.value,
             genres: inputState.genresList
+
         }
         console.log(newMovie);
 
         insertMovie(newMovie, (err, res) => {
 
             if(err) updateNewMovie({
+
                 notification: 'A problem occured',
                 showNewMovie: newMovieState.showNewMovie
             });
@@ -63,10 +68,12 @@ const NewMovie = (props) => {
                     notification: 'The movie was added successfully',
                     showNewMovie: newMovieState.showNewMovie
 
+
                 });
             }
         });
     }
+
 
     const addGenresHandler = (e) =>{
         e.preventDefault();
@@ -97,6 +104,7 @@ const NewMovie = (props) => {
     }
 
 
+
     return(
         <div>
             {newMovieState.notification !== '' ? 
@@ -112,6 +120,7 @@ const NewMovie = (props) => {
                     <label htmlFor="year">Year: </label>
                     <select id="year" name="year">
                         {inputState.yearOptions}
+
                     </select>
                 </div>
                 <div>
@@ -122,7 +131,6 @@ const NewMovie = (props) => {
                     <label htmlFor="imdb_rating">IMDB rating: </label><input 
                     id="imdb_rating" type="text" name="imdb_rating"></input>
                 </div>
-
 
                 <div>
                 <div style={{display: "inline-block"}}>
@@ -141,6 +149,7 @@ const NewMovie = (props) => {
                     </div>
                 </div>
                 
+
 
                 {/* poster and images upload */}
                 {/*genres, poster, images*/}
