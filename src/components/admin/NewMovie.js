@@ -5,17 +5,25 @@ import {insertMovie} from '../callServer'
 const NewMovie = (props) => {
 
     const refGenresInput = useRef(null);
-    const refGenresList = useRef(null);
+    const refPosterFileName = useRef(null);
 
     const [newMovieState, updateNewMovie] = useState({
-        showNewMovie : false,
         notification: ''
     });
-    const [inputState, updateInputState] = useState({
+
+    const [yearsState, updateYears] = useState({
         yearOptions: null,
-        addedGenres : '',
+
+    });
+
+    const [genresState, updateGenres] = useState({
         genresList : []
     });
+
+    const [imagesState, updateImages]= useState({
+        imagesList: []
+    });
+
 
 
     useEffect(() => {
@@ -31,13 +39,9 @@ const NewMovie = (props) => {
             return <option key={el} value={el}>{el}</option>
         });
 
-
-        updateInputState((prevState) => {
-            return{
-            genresList: prevState.genresList,
+        updateYears({
             yearOptions: options
-}        })
-
+        });
 
     }, []);
 
@@ -46,29 +50,36 @@ const NewMovie = (props) => {
 
         e.preventDefault();
         let event = e.target.elements;
-        let newMovie = {
-            title: event.title.value,
-            year: event.year.value,
-            country: event.country.value,
-            imdb_rating: event.imdb_rating.value,
-            genres: inputState.genresList
 
+        let imagesList = [];
+        let formData  = new FormData();
+
+        // Form vaidation
+        formData.append("title", event.title.value);
+        formData.append("year", event.year.value);
+        formData.append("country", event.country.value);
+        formData.append("imdb_rating", event.imdb_rating.value);
+
+        formData.append("genres", genresState.genresList);
+        if(event.poster.files.length > 0)
+            formData.append("poster", event.poster.files[0]);
+
+        for(let i = 0 ; i < event.images.files.length; i++){
+            console.log(event.images.files[i]);
+
+            imagesList.push(event.images.files[i]);
+            formData.append("images", event.images.files[i]);
         }
-        console.log(newMovie);
 
-        insertMovie(newMovie, (err, res) => {
+
+        insertMovie(formData, (err, res) => {
 
             if(err) updateNewMovie({
-
                 notification: 'A problem occured',
-                showNewMovie: newMovieState.showNewMovie
             });
             else {
                 updateNewMovie({
                     notification: 'The movie was added successfully',
-                    showNewMovie: newMovieState.showNewMovie
-
-
                 });
             }
         });
@@ -77,33 +88,69 @@ const NewMovie = (props) => {
 
     const addGenresHandler = (e) =>{
         e.preventDefault();
-        let genresListCopy = inputState.genresList.slice();
-        genresListCopy.push(refGenresInput.current.value);
-        let newAddedGenres = inputState.addedGenres ? inputState.addedGenres + "\n" + refGenresInput.current.value
-        : refGenresInput.current.value;
-        refGenresInput.current.value = "";
-        updateInputState({
-            genresList: genresListCopy,
-            addedGenres: newAddedGenres,
-            yearOptions: inputState.yearOptions
-        });
+        let genresListCopy = genresState.genresList.slice();
+        const genreValue = refGenresInput.current.value;
+
+        if (genreValue.trim().length > 0) {
+            let genreExists = false;
+
+            for(let i = 0; i < genresListCopy.length; i++){
+                if(genresListCopy[i].toLowerCase() === genreValue.toLowerCase())
+                    genreExists = true;
+
+            }
+            if( !genreExists) {
+                genresListCopy.push(genreValue);
+                refGenresInput.current.value = "";
+                updateGenres({
+                    genresList: genresListCopy
+                });
+            }
+
+        }
+        // can potentially give notification that genre has already been inserted.
 
     }
 
 
     const clearGenresList = (e) => {
         e.preventDefault();
-        //refGenresList.current.value = "";
-        updateInputState({
-            yearOptions: inputState.yearOptions,
-            addedGenres : '',
+        updateGenres({
             genresList : []
-
-        })
-
+        });
     }
 
 
+    const posterUploadHandler = (e) => {
+        e.preventDefault();
+        if(e.target.files.length > 0) {
+            refPosterFileName.current.innerHTML = e.target.files[0].name;
+        }
+    }
+
+    const imagesUploadHandler = (e) => {
+        e.preventDefault();
+        let files = e.target.files;
+        let filenamesList = [];
+        if(files.length > 0 ){
+            for (let i = 0; i < files.length; i++) {
+
+                filenamesList.push(files[i].name);
+            }
+            updateImages({
+                imagesList: filenamesList
+            })
+        }
+    }
+
+
+    const imagesListDisplay = imagesState.imagesList.map((imageName, ind) => {
+        return <li key={imageName}><label>{imageName}</label></li>
+    });
+
+    const genresListDisplay = genresState.genresList.map((genre, ind) => {
+        return <li key={genre}><label>{genre}</label></li>
+    });
 
     return(
         <div>
@@ -119,7 +166,8 @@ const NewMovie = (props) => {
                 <div>
                     <label htmlFor="year">Year: </label>
                     <select id="year" name="year">
-                        {inputState.yearOptions}
+                        <option value="0">Select year</option>
+                        {yearsState.yearOptions}
 
                     </select>
                 </div>
@@ -133,26 +181,57 @@ const NewMovie = (props) => {
                 </div>
 
                 <div>
-                <div style={{display: "inline-block"}}>
-                    <label htmlFor="genres">Genres: </label>
-                    <input size="10"
-                    id="genres" type="text" name="genres"
-                    ref={refGenresInput}></input>
-                    <button style={{marginLeft: "3px"}} onClick={addGenresHandler}>Add genres</button>
+                    <div style={{display: "inline-block"}}>
+                        <label htmlFor="genres">Genres: </label>
+                        <input id="genres" type="text" name="genres"
+                        ref={refGenresInput}></input>
+                        <button style={{marginLeft: "3px"}} onClick={addGenresHandler}>Add genres</button>
+                    </div>
+
+                    {genresState.genresList.length > 0 ? 
+                    <div style={{margin: "20px 0px"}}>
+                        <ul style={{paddingLeft: "12px", margin: "0"}}>
+                            {genresListDisplay}
+                        </ul>
+                        <button style={{marginTop: "3px"}} onClick={clearGenresList}>Clear genres list</button>
+                    </div>
+                    :null}
+                    
                 </div>
-                <div style={{display: "inline-block"}}>
-                    <textarea ref={refGenresList}
-                     style={{padding: "0", verticalAlign: "top", marginLeft: "20px", resize: "none"}}
-                    cols="20" rows="3" readOnly="readOnly" value={inputState.addedGenres ? inputState.addedGenres : "No Genres"}
-                    ></textarea>
-                    {inputState.addedGenres ? <button style={{marginLeft: "3px"}} onClick={clearGenresList}>Clear genres list</button> : null}
+
+
+                <div>
+                    <div style={{display: "inline-block"}}>
+                        <label htmlFor="poster">Poster: </label>
+                        <div style={{display: "inline", marginLeft: "3px", verticalAlign: "super"}} className="fileUploadContainer">
+                                <label className="button">Browse</label>
+                                <input id="poster" type="file" name="poster" onChange={posterUploadHandler} />
+                        </div>
+                        
+                    </div>
+                    <div style={{margin: "20px 0px"}}>
+                        <label ref={refPosterFileName}></label>
                     </div>
                 </div>
-                
 
+                <div>
+                    <div style={{display: "inline-block"}}>
+                        <label htmlFor="images">Images: </label>
+                        <div style={{display: "inline", marginLeft: "3px", verticalAlign: "super"}} className="fileUploadContainer">
+                            <label className="button">Browse</label>
+                            <input id="images" type="file" name="image" multiple={true} onChange={imagesUploadHandler}></input>
+                        </div>
+                    </div>
+                    {imagesState.imagesList.length > 0 ?
+                    <div style={{margin: "20px 0px"}}>
+                        <ul style={{paddingLeft: "12px", margin: "0"}}>
+                            {imagesListDisplay}
+                        </ul>
+                    </div>
+                    : null
+                    }
 
-                {/* poster and images upload */}
-                {/*genres, poster, images*/}
+                </div>
 
                 <button>Add</button>
             </form>

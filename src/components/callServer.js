@@ -90,13 +90,12 @@ const fetchMovies = (cb) => {
 
 
 const insertMovie = (movie, cb) => {
-    //check params
+
     axios.post(baseUrl + 'addMovie', movie)
     .then(res => {
         const result = res.data;
         if(res.status === 200) {
 
-            
             if(result.error) {
                 cb("There was a problem: " + result.error);
             }else {
@@ -104,14 +103,13 @@ const insertMovie = (movie, cb) => {
             }
 
         } else {
-            console.log("error in adding movies", result.error);
+            console.log("Error in adding movies", result.error);
             cb("Error adding the new movie");
         }
 
     }).catch(e => {
         console.log("error in adding movies", e);
         cb("Error adding the new movie");
-
     });
 
 }

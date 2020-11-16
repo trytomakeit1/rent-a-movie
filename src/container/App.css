@@ -153,7 +153,7 @@
 }
 
 
-button.button, .form-control button {
+.button, .form-control button {
   padding: 10px;
   background-color: #2fd7f3;
   font-weight: 600;
@@ -161,8 +161,32 @@ button.button, .form-control button {
   box-shadow: 3px 2px 3px lightblue;
 }
 
-button.button:focus, button.button:hover, button.button:active,
+.button:focus, .button:hover, .button:active,
 .form-control button:focus, .form-control button:hover, .form-control button:active {
   outline: none;
   box-shadow: 1px 1px lightblue;
+}
+
+
+
+/****** File Upload ******/
+.fileUploadContainer {
+  position: relative;
+}
+
+.fileUploadContainer label {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.fileUploadContainer input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 67px;
+  height: 38px;
+  vertical-align: middle;
+  opacity: 0;
+
 }
