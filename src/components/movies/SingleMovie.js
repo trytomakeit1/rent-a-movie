@@ -4,6 +4,7 @@ import {rentMovie} from '../callServer';
 const SingleMovie = (props) => {
 
     const movie = props.movie;
+    const imagesurl = 'http://localhost:8080/images/';
 
     if(!movie)
         // this condition is necessary cause I show null, until I receive the data from api
@@ -36,9 +37,10 @@ const SingleMovie = (props) => {
 
         //images
         let imagesList = null;
-        if(movie.images){
-            imagesList = movie.images.map((el, ind)=> {
-                return <img src={el} alt={el} key={ind} />
+        if(movie.images_name){
+            imagesList = movie.images_name.map((el, ind)=> {
+                let imagespath = imagesurl + movie.title.replace(/\s/g, "_") + "/" + el
+                return <img src={imagespath} alt={el} key={ind} />
             });
         }
 

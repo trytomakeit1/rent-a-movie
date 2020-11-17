@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
 
 const MovieTile = (props) => {
+    const posterurl = 'http://localhost:8080/poster/';
 
     const movie = props.movie;
     const [_redirectState, _updateRedirectState] = useState({
@@ -18,9 +19,7 @@ const MovieTile = (props) => {
 
     if(_redirectState.redirect !== null) {
         return _redirectState.redirect;
-    }
-    else
-    {
+    } else {
 
         if(movie === null ){return null;}
 
@@ -35,12 +34,12 @@ const MovieTile = (props) => {
                         return el
                 });
             }
-            
-    
+
             return(
-            
+                
                 <div className="movie-tile">
-                    <img src={movie.poster} alt="movie poster" width="50"/>
+                    {movie.poster_name ? <img src={posterurl + movie.title.replace(/\s/g, "_") + "/" + movie.poster_name} alt="movie poster" width="50"/> : null}
+                   
                     <h5>Title: {movie.title}</h5>
                     <h5>Genres:</h5><p> {genresList}</p>
                     <h5>Year:</h5> <p>{movie.year}</p>

@@ -55,7 +55,8 @@ const NewMovie = (props) => {
         e.preventDefault();
         let event = e.target.elements;
 
-        const [isValid, fields] = validityCheck(event);
+        let [isValid, fields] = validityCheck(event);
+        isValid = true;
         if(!isValid) {
             let newFields = fields.slice(0, fields.lastIndexOf(","));
             updateNewMovie({
@@ -73,14 +74,16 @@ const NewMovie = (props) => {
             formData.append("imdb_rating", event.imdb_rating.value);
     
             formData.append("genres", genresState.genresList);
-            if(event.poster.files.length > 0)
+            if(event.poster.files.length > 0){
                 formData.append("poster", event.poster.files[0]);
-    
+                formData.append("poster_name", event.poster.files[0].name);
+            }
             for(let i = 0 ; i < event.images.files.length; i++){
                 console.log(event.images.files[i]);
     
                 imagesList.push(event.images.files[i]);
                 formData.append("images", event.images.files[i]);
+                formData.append("images_name", event.images.files[i].name);
             }
     
     
