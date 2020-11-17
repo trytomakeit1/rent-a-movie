@@ -8,7 +8,11 @@ const NewMovie = (props) => {
     const refPosterFileName = useRef(null);
 
     const [newMovieState, updateNewMovie] = useState({
-        notification: ''
+        notification: {
+            message: '',
+            color: ''
+        },
+        errorMessage : ''
     });
 
     const [yearsState, updateYears] = useState({
@@ -51,38 +55,55 @@ const NewMovie = (props) => {
         e.preventDefault();
         let event = e.target.elements;
 
-        let imagesList = [];
-        let formData  = new FormData();
-
-        // Form vaidation
-        formData.append("title", event.title.value);
-        formData.append("year", event.year.value);
-        formData.append("country", event.country.value);
-        formData.append("imdb_rating", event.imdb_rating.value);
-
-        formData.append("genres", genresState.genresList);
-        if(event.poster.files.length > 0)
-            formData.append("poster", event.poster.files[0]);
-
-        for(let i = 0 ; i < event.images.files.length; i++){
-            console.log(event.images.files[i]);
-
-            imagesList.push(event.images.files[i]);
-            formData.append("images", event.images.files[i]);
-        }
-
-
-        insertMovie(formData, (err, res) => {
-
-            if(err) updateNewMovie({
-                notification: 'A problem occured',
-            });
-            else {
-                updateNewMovie({
-                    notification: 'The movie was added successfully',
-                });
+        const [isValid, fields] = validityCheck(event);
+        if(!isValid) {
+            let newFields = fields.slice(0, fields.lastIndexOf(","));
+            updateNewMovie({
+                notification: newMovieState.notification,
+                errorMessage: newFields
+            })
+            
+        } else {
+            let imagesList = [];
+            let formData  = new FormData();
+    
+            formData.append("title", event.title.value);
+            formData.append("year", event.year.value);
+            formData.append("country", event.country.value);
+            formData.append("imdb_rating", event.imdb_rating.value);
+    
+            formData.append("genres", genresState.genresList);
+            if(event.poster.files.length > 0)
+                formData.append("poster", event.poster.files[0]);
+    
+            for(let i = 0 ; i < event.images.files.length; i++){
+                console.log(event.images.files[i]);
+    
+                imagesList.push(event.images.files[i]);
+                formData.append("images", event.images.files[i]);
             }
-        });
+    
+    
+            insertMovie(formData, (err, res) => {
+    
+                if(err) updateNewMovie({
+                    notification: {
+                        message: "A problem occured",
+                        color: "red"},
+                    errorMessage: ""
+                });
+                else {
+                    updateNewMovie({
+                        notification: {
+                            message: "The movie was added successfully",
+                            color: "green"},
+                        errorMessage: ""
+                    });
+                }
+            });
+    
+
+        }
     }
 
 
@@ -144,6 +165,44 @@ const NewMovie = (props) => {
     }
 
 
+
+    const validityCheck = (inputValue) => {
+        let isValid = true;
+        let fields = "";
+
+        if(inputValue.title.value.trim() === '') {
+            isValid = false;
+            fields += "Title,";
+        }
+        if(isNaN(inputValue.year.value)) {
+            isValid = false;
+            fields += "Year,";
+        }
+        if(inputValue.country.value.trim() === '') {
+            isValid = false;
+            fields += "Country,";
+        }
+        if(genresState.genresList.length <= 0) {
+            isValid = false;
+            fields += "Genres,";
+        }
+        
+        if(inputValue.poster.files.length <= 0) {
+            isValid = false;
+            fields += "Poster,";
+        }
+        if(inputValue.images.files.length <= 0) {
+            isValid = false;
+            fields += "Images,";
+        }
+
+        return [isValid, fields];
+       
+
+    }
+
+
+
     const imagesListDisplay = imagesState.imagesList.map((imageName, ind) => {
         return <li key={imageName}><label>{imageName}</label></li>
     });
@@ -153,9 +212,13 @@ const NewMovie = (props) => {
     });
 
     return(
+        
         <div>
-            {newMovieState.notification !== '' ? 
-            <h2 style={{color: 'red'}}>{newMovieState.notification}</h2> : null}
+            {newMovieState.errorMessage}
+            {newMovieState.notification.message !== "" ? 
+            <h2 style={{color: newMovieState.notification.color}}>{newMovieState.notification.message}</h2> : null}
+            {newMovieState.errorMessage !== "" ?
+            <div><h4 style={{color: "red"}}>The following fields are required:</h4><h4 style={{color: 'red'}}>{newMovieState.errorMessage}</h4></div> : null}
 
             <h2>Please enter the movie's details:</h2>
             <form className="form-control textLeft" onSubmit={addMovieHandler} >
@@ -166,7 +229,7 @@ const NewMovie = (props) => {
                 <div>
                     <label htmlFor="year">Year: </label>
                     <select id="year" name="year">
-                        <option value="0">Select year</option>
+                        <option value="select year">Select year</option>
                         {yearsState.yearOptions}
 
                     </select>

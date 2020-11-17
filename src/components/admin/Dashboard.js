@@ -19,10 +19,13 @@ const Dashboard = () => {
 
     return(
         <div>
-            <h2>Welcome to Dashboard</h2>
-            {!showNewMovieState.showNewMovie ? 
-            <button className="button" onClick={showMovieHandler}>Add new Movie</button>:
-            <NewMovie />}
+
+            {!showNewMovieState.showNewMovie ?
+            <div>
+                <h2>Welcome to Dashboard</h2> 
+                <button className="button" onClick={showMovieHandler}>Add new Movie</button>
+            </div>
+            : <NewMovie />}
             
         </div>
     )
