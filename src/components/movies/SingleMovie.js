@@ -12,9 +12,10 @@ const SingleMovie = (props) => {
 
         // Genres list
         let genresList = [];
-        if(movie.genres) {
-            genresList = movie.genres.map((el, ind)=> {
-                if (ind < movie.genres.length - 1)
+        let movieGenres = movie.genres.split(",");
+        if(movieGenres) {
+            genresList = movieGenres.map((el, ind)=> {
+                if (ind < movieGenres.length - 1)
                     return el + ", "
                 else
                     return el

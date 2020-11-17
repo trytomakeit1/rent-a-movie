@@ -27,7 +27,7 @@ const Navigation = (props) => {
                                 : null
                             }
                             <NavLink to="/movies">Movies</NavLink>
-                            <NavLink to="/rented-movies">Rent a movie</NavLink>        
+                            <NavLink to="/rented-movies">Rented movies</NavLink>
                         </React.Fragment>
                         :
                         null

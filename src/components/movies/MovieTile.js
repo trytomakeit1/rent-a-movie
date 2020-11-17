@@ -26,9 +26,10 @@ const MovieTile = (props) => {
 
         else {
             let genresList = [];
-            if(movie.genres) {
-                genresList = movie.genres.map((el, index)=> {
-                    if (index < movie.genres.length - 1)
+            let movieGenres = movie.genres.split(",");
+            if(movieGenres) {
+                genresList = movieGenres.map((el, index)=> {
+                    if (index < movieGenres.length - 1)
                         return el + ", "
                     else
                         return el
